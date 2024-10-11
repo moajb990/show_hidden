@@ -45,7 +45,7 @@ def build_wordlist():
 
     found_resume = False
     words = queue.Queue()
-
+ 
     # add the words
     for word in raw_words:
         if resume:
@@ -64,7 +64,7 @@ def dir_bruter(extensions=None):
     while not word_queue.empty():
         attempt = word_queue.get()
         attempt_list = []
-
+        size_kb = None
         # check extensions and.. 
         if "." not in attempt:
             attempt_list.append(f"/{attempt}/")
@@ -92,7 +92,11 @@ def dir_bruter(extensions=None):
                    
             except urllib.error.HTTPError as e:
                 if e.code != 404:
-                    print(red + f"[-] {e.code} - {size_kb:.2f}KB ==> {url}" + close)
+                    if size_kb is not None:
+                        print(red + f"[-] {e.code} - {size_kb:.2f}KB ==> {url}" + close)
+                    else:
+                       
+                         print(red + f"[-] {e.code} ==> {url}" + close)
 
 # get arguments
 options = get_argument()
